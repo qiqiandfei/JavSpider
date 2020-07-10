@@ -28,7 +28,7 @@
 # 运行脚本
 1、开始->运行 输入‘cmd’进入命令行
 
-2、cd到项目目录（第一个JavSpider）所在目录；或者直接在第一个JavSpider文件夹下‘Shift+鼠标右键’，选择在此处打开命令行或powershell
+2、cd到项目目录；或者直接在项目目录下‘Shift+鼠标右键’，选择在此处打开命令行或powershell
 
 3、输入命令 scrapy crawl jav  等待程序自动抓取结束(结束标识：INFO: Spider closed (finished))
 
