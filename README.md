@@ -4,7 +4,7 @@
 # 开发环境
 脚本使用Python开发，需要安装Python编译环境并引入scrapy库
 
-# 修改配置：
+# 修改配置
 打开脚本目录，进入JavSpider文件夹，找到settings.py。找到‘USER_CONFIG’（17行），按需修改参数。
 
 主域名：
