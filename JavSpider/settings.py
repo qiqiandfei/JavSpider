@@ -19,16 +19,23 @@ USER_CONFIG = {
 
     # 设置主域名javbus主站需要fq，没有梯子的请填写放屏蔽地址例如：https://www.seedmm.cam
     # 防屏蔽地址不保证永久有效，失效需更换
+    # 欧美影片域名填写'https://www.javbus.one'
     'domain': ['https://www.javbus.com'],
+    #'domain': ['https://www.javbus.one'],
 
     # 过滤条件输入女优姓名，或者番号，支持混合输入，支持模糊输入，多个条件中间逗号分隔，输入的条件要保证在javbus有结果返回。
     # 例如：输入'IPZ' 会自动抓取IPZ系列所有磁力（模糊番号抓取耗时较长），建议番号用模糊查询，老师用精准查询，利于分类
-    'condition': ['三上悠亜'],
+    'condition': ['前田かおり'],
 
     # 抓取优先级
     # ‘清晰度’：自动抓取清晰度高的；
     # ‘字幕’：自动抓取带字幕的，没有字幕抓清晰度高的
-    'crawlrule': '字幕'
+    'crawlrule': '清晰度',
+
+    # 是否尝试抓取全部磁力
+    # yes:尝试抓取全部磁力
+    # no:只抓取存在的磁力
+    'crawlall': 'yes'
 }
 
 USER_AGENT_LIST = [
@@ -62,7 +69,7 @@ DEFAULT_REQUEST_HEADERS = {
 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
 'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,zh-TW;q=0.6',
 'cache-control': 'max-age=0',
-'cookie': '__cfduid=d0df90723d85b000a02f3c71bd4deb1e31571539904; existmag=mag; 4fJN_2132_saltkey=hmH09Fbq; 4fJN_2132_lastvisit=1592674908; 4fJN_2132_visitedfid=2D36; PHPSESSID=fdlmgi69fo1hc52vdklh0ahtr5',
+'cookie': '__cfduid=d0df90723d85b000a02f3c71bd4deb1e31571539904; 4fJN_2132_saltkey=hmH09Fbq; 4fJN_2132_lastvisit=1592674908; 4fJN_2132_visitedfid=2D36; PHPSESSID=efnnte1nom2ep9l7c79ec2vom7;',
 'sec-fetch-dest': 'document',
 'sec-fetch-mode': 'navigate',
 'sec-fetch-site': 'none',
