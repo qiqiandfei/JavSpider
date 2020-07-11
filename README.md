@@ -10,6 +10,7 @@
 主域名：
 设置主域名javbus主站需要fq，没有梯子的请填写放屏蔽地址例如：'https://www.seedmm.cam'
 防屏蔽地址不保证永久有效，失效需更换
+欧美影片抓取填写地址'https://javbus.one'
 
 默认配置：'domain': ['https://www.javbus.com']
 
