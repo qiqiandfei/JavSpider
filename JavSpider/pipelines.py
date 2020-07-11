@@ -11,6 +11,7 @@ from JavSpider.settings import USER_CONFIG
 
 class JavspiderPipeline(object):
     def __init__(self):
+        
         condition = USER_CONFIG['condition'][0]
         crawlrule = USER_CONFIG['crawlrule']
         
