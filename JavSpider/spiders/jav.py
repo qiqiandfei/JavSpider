@@ -25,7 +25,7 @@ class JavSpider(scrapy.Spider):
         #欧美影片只支持清晰度抓取
         if self.allowed_domains == 'https://www.javbus.one':
             self.crawlrule = '清晰度'
-        
+
         #爬爬爬
         for condition in self.conditions:
             url = self.allowed_domains[0] + '/search/{}&type=&parent=ce'.format(condition)
@@ -110,39 +110,57 @@ class JavSpider(scrapy.Spider):
         jav['type'] = response.meta['type']
         jav['date'] = response.meta['date'].strip()
 
-        if self.crawlrule == '清晰度':
-            sizelist = response.xpath("//tr//td[2]//a/text()").extract()
-            #找到清晰度最高的
+        #判断磁力链接状态
+        magnetstate = response.xpath("//tr//td[1]/text()").extract_first()
+        if 'There is no magnet link for this video at the moment, please wait for others to share it!' == magnetstate:
+            return
+        elif 'The following magnet link is Pending Review!' == magnetstate:
+            sizelist = response.xpath("//tr[2]//td[2]//a/text()").extract()
+            # 找到清晰度最高的
             index, newlist = self.getlargeone(sizelist)
-            href = response.xpath("//tr//td[2]//a//@href").extract()[index]
+            href = response.xpath("//tr[2]//td[2]//a//@href").extract()[index]
             jav['magnet'] = href
             jav['size'] = newlist[index]
-            #判断是否有字幕
-            subtitlelist = response.xpath("//tr//td[1]").extract()
+            # 判断是否有字幕
+            subtitlelist = response.xpath("//tr[2]//td[1]").extract()
             if self.hassubtitle(subtitlelist, index):
                 jav['subtitle'] = '是'
             else:
                 jav['subtitle'] = '否'
-
-        if self.crawlrule == '字幕':
-            subtitlelist = response.xpath("//tr//td[1]").extract()
-            sizelist = response.xpath("//tr//td[2]//a/text()").extract()
-            index = self.getsubtitle(subtitlelist)
-            #没有带字幕的视频按清晰度查找
-            if index == -1:
-                # 找到清晰度最高的
+        else:
+            if self.crawlrule == '清晰度':
+                sizelist = response.xpath("//tr//td[2]//a/text()").extract()
+                #找到清晰度最高的
                 index, newlist = self.getlargeone(sizelist)
                 href = response.xpath("//tr//td[2]//a//@href").extract()[index]
                 jav['magnet'] = href
                 jav['size'] = newlist[index]
-                jav['subtitle'] = '否'
-            else:
-                # 找到带字幕的
-                newlist = self.sizeformat(sizelist)
-                href = response.xpath("//tr//td[2]//a//@href").extract()[index]
-                jav['magnet'] = href
-                jav['size'] = newlist[index]
-                jav['subtitle'] = '是'
+                #判断是否有字幕
+                subtitlelist = response.xpath("//tr//td[1]").extract()
+                if self.hassubtitle(subtitlelist, index):
+                    jav['subtitle'] = '是'
+                else:
+                    jav['subtitle'] = '否'
+
+            if self.crawlrule == '字幕':
+                subtitlelist = response.xpath("//tr//td[1]").extract()
+                sizelist = response.xpath("//tr//td[2]//a/text()").extract()
+                index = self.getsubtitle(subtitlelist)
+                #没有带字幕的视频按清晰度查找
+                if index == -1:
+                    # 找到清晰度最高的
+                    index, newlist = self.getlargeone(sizelist)
+                    href = response.xpath("//tr//td[2]//a//@href").extract()[index]
+                    jav['magnet'] = href
+                    jav['size'] = newlist[index]
+                    jav['subtitle'] = '否'
+                else:
+                    # 找到带字幕的
+                    newlist = self.sizeformat(sizelist)
+                    href = response.xpath("//tr//td[2]//a//@href").extract()[index]
+                    jav['magnet'] = href
+                    jav['size'] = newlist[index]
+                    jav['subtitle'] = '是'
         yield jav
 
     def hassubtitle(self, subtitlelist, index):
