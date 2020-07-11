@@ -25,6 +25,7 @@ class JavSpider(scrapy.Spider):
         #欧美影片只支持清晰度抓取
         if self.allowed_domains == 'https://www.javbus.one':
             self.crawlrule = '清晰度'
+        
         #爬爬爬
         for condition in self.conditions:
             url = self.allowed_domains[0] + '/search/{}&type=&parent=ce'.format(condition)
