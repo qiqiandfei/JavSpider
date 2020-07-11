@@ -6,7 +6,7 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 from scrapy import signals
-from JavSpider.settings import USER_AGENT_LIST
+from JavSpider.settings import USER_AGENT_LIST, USER_CONFIG, DEFAULT_REQUEST_HEADERS
 
 class JavspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -110,3 +110,19 @@ class RandomUserAgentMiddleware(object):
         rand_use = random.choice(USER_AGENT_LIST)  # 这个USER_AGENT_LIST是从settings里面导入的
         if rand_use:
             request.headers.setdefault('User-Agent', rand_use)
+
+        #删除默认
+        defaulcookie = ''
+        if 'existmag=all' in DEFAULT_REQUEST_HEADERS['cookie']:
+            defaulcookie = DEFAULT_REQUEST_HEADERS['cookie'].replace(' existmag=all;', '')
+
+        if 'existmag=mag' in DEFAULT_REQUEST_HEADERS['cookie']:
+            defaulcookie = DEFAULT_REQUEST_HEADERS['cookie'].replace(' existmag=mag;', '')
+
+        #获取全部磁力
+        if USER_CONFIG['crawlall'] == 'yes':
+            cookie = defaulcookie + " existmag=all;"
+        #获取存在磁力
+        else:
+            cookie = defaulcookie + " existmag=mag;"
+        request.headers['Cookie'] = cookie
