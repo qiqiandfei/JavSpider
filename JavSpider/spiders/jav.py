@@ -21,29 +21,39 @@ class JavSpider(scrapy.Spider):
         self.allowed_domains = USER_CONFIG['domain']
         self.conditions = USER_CONFIG['condition']
         self.crawlrule = USER_CONFIG['crawlrule']
+
+        #欧美影片只支持清晰度抓取
+        if self.allowed_domains == 'https://www.javbus.one':
+            self.crawlrule = '清晰度'
         #爬爬爬
         for condition in self.conditions:
             url = self.allowed_domains[0] + '/search/{}&type=&parent=ce'.format(condition)
             yield scrapy.Request(url=url, meta={'condition': condition}, callback=self.parse)
 
     def parse(self, response):
-        qbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[1]/a/text()[2]").extract()[0].strip()[:-1].strip()
-        bbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/text()[2]").extract()[0].strip()[:-1].strip()
-        #有码影片
-        if int(qbmovie) > 0:
-            #查询页数
-            pagelist = response.xpath("//ul[@class='pagination pagination-lg']//@href").extract()
-            if len(pagelist) == 0:
-                url = response.url
-                yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
-            else:
-                url = self.allowed_domains[0] + '/search/' + response.meta['condition'] + '/1'
-                yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
+        #日本影片抓取
+        if 'javbus.one' not in self.allowed_domains[0]:
+            qbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[1]/a/text()[2]").extract()[0].strip()[:-1].strip()
+            bbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/text()[2]").extract()[0].strip()[:-1].strip()
+            #有码影片
+            if int(qbmovie) > 0:
+                #查询页数
+                pagelist = response.xpath("//ul[@class='pagination pagination-lg']//@href").extract()
+                if len(pagelist) == 0:
+                    url = response.url
+                    yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
+                else:
+                    url = self.allowed_domains[0] + '/search/' + response.meta['condition'] + '/1'
+                    yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
 
-        #无码影片
-        if int(bbmovie) > 0:
-            url = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/@href").extract_first()
-            yield scrapy.Request(url=url, meta={"type": '步兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_uncensored, dont_filter=True)
+            #无码影片
+            if int(bbmovie) > 0:
+                url = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/@href").extract_first()
+                yield scrapy.Request(url=url, meta={"type": '步兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_uncensored, dont_filter=True)
+        else:
+            #欧美影片抓取
+            url = self.allowed_domains[0] + '/search/' + response.meta['condition'] + '/1'
+            yield scrapy.Request(url=url, meta={"type": '欧美', 'page': 1, 'condition': response.meta['condition']},callback=self.parse_movie, dont_filter=True)
 
     #无码影片抓取
     def parse_uncensored(self, response):
@@ -191,14 +201,12 @@ class JavSpider(scrapy.Spider):
                 index = i
                 return index
 
-
         #找不到高清 + 字幕找字幕
         if index == -1:
             for i in range(0, len(subtitlelist)):
                 if 'Subtitles">SUB</a>' in subtitlelist[i]:
                     index = i
                     return index
-
         return index
 
 
