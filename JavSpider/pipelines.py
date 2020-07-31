@@ -11,24 +11,31 @@ from JavSpider.settings import USER_CONFIG
 
 class JavspiderPipeline(object):
     def __init__(self):
-        
         condition = USER_CONFIG['condition'][0]
         crawlrule = USER_CONFIG['crawlrule']
-        
+
+        mosaic = ''
+        if USER_CONFIG['mosaic'] == 'yes':
+            mosaic = '骑兵'
+        elif USER_CONFIG['mosaic'] == 'no':
+            mosaic = '步兵'
+        elif USER_CONFIG['mosaic'] == 'all':
+            mosaic = '全部'
+
         if len(USER_CONFIG['condition']) > 1:
-            info = condition + '..._' + crawlrule + '_info.json'
-            magnet = condition + '..._' + crawlrule + '_magnet.txt'
+            info = condition + '..._' + crawlrule + '_' + mosaic + '_info.json'
+            magnet = condition + '..._' + crawlrule + '_' + mosaic + '_magnet.txt'
         else:
-            info = condition + '_' + crawlrule + '_info.json'
-            magnet = condition + '_' + crawlrule + '_magnet.txt'
-        
+            info = condition + '_' + crawlrule + '_' + mosaic + '_info.json'
+            magnet = condition + '_' + crawlrule + '_' + mosaic + '_magnet.txt'
+
         #创建结果文件夹
         if not os.path.exists('CrawlResult'):
             os.mkdir('CrawlResult')
-            
+
         self.file = codecs.open('CrawlResult/' + info, 'w', encoding='utf-8')
         self.txt = codecs.open('CrawlResult/' + magnet, 'w', encoding='utf-8')
-        self.splitline = 0
+        # self.splitline = 0
 
     def process_item(self, item, spider):
         line = json.dumps(dict(item), ensure_ascii=False) + "\n"
