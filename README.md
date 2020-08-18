@@ -68,14 +68,5 @@
 
 5、脚本执行结束后，结果目录（CrawlResult）中会生成两个文件 xxx_xxx_info.json和xxx_xxx__magnet.txt；xxx_xxx_info.json保存信息较全，可以作为后续数据处理的数据源；xxx_xxx_magnet.txt为纯磁力，可以直接复制到115离线
 
-# Windeos下运行exe（请下载Release版本）
-1、进入脚本目录 dist/javbus 
-
-2、根据需要修改config.ini配置文件
-
-3、双击javbus.exe等待黑窗口自动关闭
-
-4、结果文件保存在dist/javbus/CrawlResult
-
 # 免责声明
 本脚本仅限用于爬虫技术交流，切勿用于非法用途，由于个人行为引发的一切法律后果与本人无关！
