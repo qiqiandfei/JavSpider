@@ -54,7 +54,7 @@
     
 'all': 全部都要！
     
-默认配置：'mosaic': 'no'
+默认配置：'mosaic': 'all'
 
 
 # 运行Python原生脚本
