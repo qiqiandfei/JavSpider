@@ -9,7 +9,9 @@
 """
 import scrapy
 from JavSpider.items import JavspiderItem
-from JavSpider.settings import USER_CONFIG
+#from JavSpider.settings import USER_CONFIG
+from readini import ReadConfig
+
 
 class JavSpider(scrapy.Spider):
     name = 'jav'
@@ -19,10 +21,18 @@ class JavSpider(scrapy.Spider):
     allowed_domains = []
     def start_requests(self):
         #读取配置
-        self.allowed_domains = USER_CONFIG['domain']
-        self.conditions = USER_CONFIG['condition']
-        self.crawlrule = USER_CONFIG['crawlrule']
-        self.mosaic = USER_CONFIG['mosaic']
+        config = ReadConfig()
+        self.allowed_domains.append(config.get_markconfig('domain'))
+        self.crawlrule = config.get_markconfig('crawlrule')
+        self.mosaic = config.get_markconfig('mosaic')
+        conditilist = config.get_markconfig('condition').split(',')
+        for item in conditilist:
+            if item is not None or item != '':
+                self.conditions.append(item)
+        # self.allowed_domains = USER_CONFIG['domain']
+        # self.conditions = USER_CONFIG['condition']
+        # self.crawlrule = USER_CONFIG['crawlrule']
+        # self.mosaic = USER_CONFIG['mosaic']
         #欧美影片只支持清晰度抓取
         if self.allowed_domains == 'https://www.javbus.one':
             self.crawlrule = '清晰度'

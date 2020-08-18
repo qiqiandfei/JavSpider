@@ -7,27 +7,55 @@
 import json
 import codecs
 import os
-from JavSpider.settings import USER_CONFIG
+#from JavSpider.settings import USER_CONFIG
+from readini import ReadConfig
 
 class JavspiderPipeline(object):
     def __init__(self):
-        condition = USER_CONFIG['condition'][0]
-        crawlrule = USER_CONFIG['crawlrule']
+        # condition = USER_CONFIG['condition'][0]
+        # crawlrule = USER_CONFIG['crawlrule']
+        #
+        # mosaic = ''
+        # if USER_CONFIG['mosaic'] == 'yes':
+        #     mosaic = '骑兵'
+        # elif USER_CONFIG['mosaic'] == 'no':
+        #     mosaic = '步兵'
+        # elif USER_CONFIG['mosaic'] == 'all':
+        #     mosaic = '全部'
+        #
+        # if len(USER_CONFIG['condition']) > 1:
+        #     info = condition + '..._' + crawlrule + '_' + mosaic + '_info.json'
+        #     magnet = condition + '..._' + crawlrule + '_' + mosaic + '_magnet.txt'
+        # else:
+        #     info = condition + '_' + crawlrule + '_' + mosaic + '_info.json'
+        #     magnet = condition + '_' + crawlrule + '_' + mosaic + '_magnet.txt'
+        config = ReadConfig()
+        conditions = []
+        crawlrule = config.get_markconfig('crawlrule')
 
         mosaic = ''
-        if USER_CONFIG['mosaic'] == 'yes':
+        if config.get_markconfig('mosaic') == 'yes':
             mosaic = '骑兵'
-        elif USER_CONFIG['mosaic'] == 'no':
+        elif config.get_markconfig('mosaic') == 'no':
             mosaic = '步兵'
-        elif USER_CONFIG['mosaic'] == 'all':
+        elif config.get_markconfig('mosaic') == 'all':
             mosaic = '全部'
 
-        if len(USER_CONFIG['condition']) > 1:
-            info = condition + '..._' + crawlrule + '_' + mosaic + '_info.json'
-            magnet = condition + '..._' + crawlrule + '_' + mosaic + '_magnet.txt'
+        conditilist = config.get_markconfig('condition').split(',')
+
+        for item in conditilist:
+            if item is not None or item != '':
+                conditions.append(item)
+
+        if len(conditions) > 1:
+            info = conditions[0] + '..._' + crawlrule + '_' + mosaic + '_info.json'
+            magnet = conditions[0] + '..._' + crawlrule + '_' + mosaic + '_magnet.txt'
+        elif len(conditions) == 1:
+            info = conditions[0] + '_' + crawlrule + '_' + mosaic + '_info.json'
+            magnet = conditions[0] + '_' + crawlrule + '_' + mosaic + '_magnet.txt'
         else:
-            info = condition + '_' + crawlrule + '_' + mosaic + '_info.json'
-            magnet = condition + '_' + crawlrule + '_' + mosaic + '_magnet.txt'
+            info = 'JavALl_' + crawlrule + '_' + mosaic + '_info.json'
+            magnet = 'JavALl_' + crawlrule + '_' + mosaic + '_magnet.txt'
 
         #创建结果文件夹
         if not os.path.exists('CrawlResult'):
@@ -35,7 +63,6 @@ class JavspiderPipeline(object):
 
         self.file = codecs.open('CrawlResult/' + info, 'w', encoding='utf-8')
         self.txt = codecs.open('CrawlResult/' + magnet, 'w', encoding='utf-8')
-        # self.splitline = 0
 
     def process_item(self, item, spider):
         line = json.dumps(dict(item), ensure_ascii=False) + "\n"
