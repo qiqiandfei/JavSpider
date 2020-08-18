@@ -6,9 +6,7 @@
 
 引入scrapy库，在命令行下执行：pip install scrapy
 
-# 修改配置
-打开脚本目录，进入JavSpider文件夹，找到settings.py。找到‘USER_CONFIG’（17行），按需修改参数。
-
+# 配置说明
 
 1、主域名：
 
@@ -59,14 +57,25 @@
 默认配置：'mosaic': 'no'
 
 
-# 运行脚本
-1、开始->运行 输入‘cmd’进入命令行
+# 运行Python原生脚本
+1、打开脚本目录，进入JavSpider文件夹，找到settings.py。找到‘USER_CONFIG’（17行），按需修改参数。
 
-2、cd到项目目录；或者直接在项目目录下‘Shift+鼠标右键’，选择在此处打开命令行或powershell
+2、开始->运行 输入‘cmd’进入命令行
 
-3、输入命令 scrapy crawl jav  等待程序自动抓取结束(结束标识：INFO: Spider closed (finished))
+3、cd到项目目录；或者直接在项目目录下‘Shift+鼠标右键’，选择在此处打开命令行或powershell
 
-4、脚本执行结束后，结果目录（CrawlResult）中会生成两个文件 xxx_xxx_info.json和xxx_xxx__magnet.txt；xxx_xxx_info.json保存信息较全，可以作为后续数据处理的数据源；xxx_xxx_magnet.txt为纯磁力，可以直接复制到115离线
+4、输入命令 scrapy crawl jav  等待程序自动抓取结束(结束标识：INFO: Spider closed (finished))
+
+5、脚本执行结束后，结果目录（CrawlResult）中会生成两个文件 xxx_xxx_info.json和xxx_xxx__magnet.txt；xxx_xxx_info.json保存信息较全，可以作为后续数据处理的数据源；xxx_xxx_magnet.txt为纯磁力，可以直接复制到115离线
+
+# Windeos下运行exe（请下载Release版本）
+1、进入脚本目录 dist/javbus 
+
+2、根据需要修改config.ini配置文件
+
+3、双击javbus.exe等待黑窗口自动关闭
+
+4、结果文件保存在dist/javbus/CrawlResult
 
 # 免责声明
 本脚本仅限用于爬虫技术交流，切勿用于非法用途，由于个人行为引发的一切法律后果与本人无关！
