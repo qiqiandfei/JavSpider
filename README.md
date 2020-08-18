@@ -68,5 +68,12 @@
 
 5、脚本执行结束后，结果目录（CrawlResult）中会生成两个文件 xxx_xxx_info.json和xxx_xxx__magnet.txt；xxx_xxx_info.json保存信息较全，可以作为后续数据处理的数据源；xxx_xxx_magnet.txt为纯磁力，可以直接复制到115离线
 
+# Windows下运行exe
+1、打开脚本目录，进入JavSpider文件夹，找到settings.py。找到‘USER_CONFIG’（17行），按需修改参数。
+
+2、进入 dist目录，双击‘crawl.exe’执行抓取
+
+3、等待执行结束后黑窗自动关闭退出，结果文件保存在 dist/CrawlResult文件夹下
+
 # 免责声明
 本脚本仅限用于爬虫技术交流，切勿用于非法用途，由于个人行为引发的一切法律后果与本人无关！
