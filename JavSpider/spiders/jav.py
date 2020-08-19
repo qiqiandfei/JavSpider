@@ -41,25 +41,21 @@ class JavSpider(scrapy.Spider):
     def parse(self, response):
         #日本影片抓取
         if 'javbus.one' not in self.allowed_domains[0]:
-            qbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[1]/a/text()[2]").extract()[0].strip()[:-1].strip()
-            bbmovie = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/text()[2]").extract()[0].strip()[:-1].strip()
-
             # 有码影片
             if self.mosaic == 'yes' or self.mosaic == 'all':
-                if int(qbmovie) > 0:
-                    #查询页数
-                    pagelist = response.xpath("//ul[@class='pagination pagination-lg']//@href").extract()
-                    if len(pagelist) == 0:
-                        url = response.url
-                        yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
-                    else:
-                        url = self.allowed_domains[0] + '/search/' + response.meta['condition'] + '/1'
-                        yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
+                #查询页数
+                pagelist = response.xpath("//ul[@class='pagination pagination-lg']//@href").extract()
+                if len(pagelist) == 0:
+                    url = response.url
+                    yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
+                else:
+                    url = self.allowed_domains[0] + '/search/' + response.meta['condition'] + '/1'
+                    yield scrapy.Request(url=url, meta={"type": '骑兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_movie, dont_filter=True)
 
             # 无码影片
             if self.mosaic == 'no' or self.mosaic == 'all':
-                if int(bbmovie) > 0:
-                    url = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/@href").extract_first()
+                url = response.xpath("/html/body/div[4]/div/div[4]/ul/li[2]/a/@href").extract_first()
+                if url != '' and url is not None:
                     yield scrapy.Request(url=url, meta={"type": '步兵', 'page': 1, 'condition': response.meta['condition']}, callback=self.parse_uncensored, dont_filter=True)
         else:
             #欧美影片抓取
