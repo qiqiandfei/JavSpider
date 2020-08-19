@@ -6,7 +6,8 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 from scrapy import signals
-from JavSpider.settings import USER_AGENT_LIST, USER_CONFIG, DEFAULT_REQUEST_HEADERS
+from JavSpider.settings import USER_AGENT_LIST, DEFAULT_REQUEST_HEADERS
+from readini import ReadConfig
 
 class JavspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -119,8 +120,9 @@ class RandomUserAgentMiddleware(object):
         if 'existmag=mag' in DEFAULT_REQUEST_HEADERS['cookie']:
             defaulcookie = DEFAULT_REQUEST_HEADERS['cookie'].replace(' existmag=mag;', '')
 
+        config = ReadConfig()
         #获取全部磁力
-        if USER_CONFIG['crawlall'] == 'yes':
+        if config.get_markconfig('crawlall') == 'yes':
             cookie = defaulcookie + " existmag=all;"
         #获取存在磁力
         else:

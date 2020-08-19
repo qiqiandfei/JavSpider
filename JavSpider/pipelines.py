@@ -7,28 +7,10 @@
 import json
 import codecs
 import os
-#from JavSpider.settings import USER_CONFIG
 from readini import ReadConfig
 
 class JavspiderPipeline(object):
     def __init__(self):
-        # condition = USER_CONFIG['condition'][0]
-        # crawlrule = USER_CONFIG['crawlrule']
-        #
-        # mosaic = ''
-        # if USER_CONFIG['mosaic'] == 'yes':
-        #     mosaic = '骑兵'
-        # elif USER_CONFIG['mosaic'] == 'no':
-        #     mosaic = '步兵'
-        # elif USER_CONFIG['mosaic'] == 'all':
-        #     mosaic = '全部'
-        #
-        # if len(USER_CONFIG['condition']) > 1:
-        #     info = condition + '..._' + crawlrule + '_' + mosaic + '_info.json'
-        #     magnet = condition + '..._' + crawlrule + '_' + mosaic + '_magnet.txt'
-        # else:
-        #     info = condition + '_' + crawlrule + '_' + mosaic + '_info.json'
-        #     magnet = condition + '_' + crawlrule + '_' + mosaic + '_magnet.txt'
         config = ReadConfig()
         conditions = []
         crawlrule = config.get_markconfig('crawlrule')
@@ -42,7 +24,6 @@ class JavspiderPipeline(object):
             mosaic = '全部'
 
         conditilist = config.get_markconfig('condition').split(',')
-
         for item in conditilist:
             if item is not None or item != '':
                 conditions.append(item)
