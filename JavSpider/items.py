@@ -16,4 +16,5 @@ class JavspiderItem(scrapy.Item):
     date = scrapy.Field()   #发布日期
     type = scrapy.Field()   #骑兵/步兵
     subtitle = scrapy.Field()   #是否有字幕
+    coverimg = scrapy.Field()  #封面图
 
