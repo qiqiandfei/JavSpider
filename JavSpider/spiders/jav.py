@@ -9,7 +9,6 @@
 """
 import scrapy
 from JavSpider.items import JavspiderItem
-#from JavSpider.settings import USER_CONFIG
 from readini import ReadConfig
 
 
@@ -29,10 +28,7 @@ class JavSpider(scrapy.Spider):
         for item in conditilist:
             if item is not None or item != '':
                 self.conditions.append(item)
-        # self.allowed_domains = USER_CONFIG['domain']
-        # self.conditions = USER_CONFIG['condition']
-        # self.crawlrule = USER_CONFIG['crawlrule']
-        # self.mosaic = USER_CONFIG['mosaic']
+
         #欧美影片只支持清晰度抓取
         if self.allowed_domains == 'https://www.javbus.one':
             self.crawlrule = '清晰度'
@@ -115,15 +111,16 @@ class JavSpider(scrapy.Spider):
         magneturl = self.allowed_domains[0] + '/ajax/uncledatoolsbyajax.php?' + param + 'floor=827'
         date = response.xpath("/html/body/div[5]/div[1]/div[2]/p[2]/text()").extract_first()
         title = response.xpath("/html/body/div[5]/h3/text()").extract_first()
+        coverimg = response.xpath("/html/body/div[5]/div[1]/div[1]/a/img//@src").extract_first()
         type = response.meta["type"]
-        yield scrapy.Request(url=magneturl, meta={"type": type, 'date': date, 'title': title}, callback=self.parse_item, dont_filter=True)
+        yield scrapy.Request(url=magneturl, meta={"type": type, 'date': date, 'title': title, 'coverimg': coverimg}, callback=self.parse_item, dont_filter=True)
 
     def parse_item(self, response):
         jav = JavspiderItem()
         jav['title'] = response.meta['title'].strip()
         jav['type'] = response.meta['type']
         jav['date'] = response.meta['date'].strip()
-
+        jav['coverimg'] = response.meta['coverimg']
         #判断磁力链接状态
         magnetstate = response.xpath("//tr//td[1]/text()").extract_first()
         if 'There is no magnet link for this video at the moment, please wait for others to share it!' == magnetstate:
