@@ -77,7 +77,5 @@
 
 3、等待执行结束后黑窗自动关闭退出，结果文件保存在 dist/CrawlResult文件夹下
 
-[下载地址](https://github.com/qiqiandfei/JavSpider/releases/tag/V1.0)
-
 # 免责声明
 本脚本仅限用于爬虫技术交流，切勿用于非法用途，由于个人行为引发的一切法律后果与本人无关！

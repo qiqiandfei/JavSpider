@@ -7,6 +7,8 @@
  * Porpuse: 根据车牌、老师抓取'https://javbus.com'的磁力链接
  * Copyright © 2020年 Fei. All rights reserved.
 """
+import time
+
 import scrapy
 from JavSpider.items import JavspiderItem
 from readini import ReadConfig
@@ -189,6 +191,7 @@ class JavSpider(scrapy.Spider):
                     jav['magnet'] = href
                     jav['size'] = newlist[index]
                     jav['subtitle'] = '是'
+        time.sleep(2)
         yield jav
 
     def hassubtitle(self, subtitlelist, index):

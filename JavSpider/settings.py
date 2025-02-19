@@ -42,16 +42,23 @@ ROBOTSTXT_OBEY = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
+#':authority': 'www.javbus.com',
+# ':method': 'GET',
+# ':path': '/search/%E5%90%91%E4%BA%95%E8%97%8D&type=&parent=ce',
+# ':scheme': 'https',
 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
 'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,zh-TW;q=0.6',
 'cache-control': 'max-age=0',
-'cookie': '__cfduid=d0df90723d85b000a02f3c71bd4deb1e31571539904; 4fJN_2132_saltkey=hmH09Fbq; 4fJN_2132_lastvisit=1592674908; 4fJN_2132_visitedfid=2D36; PHPSESSID=efnnte1nom2ep9l7c79ec2vom7;',
+'cookie': 'PHPSESSID=lu9ac19mfesjjiek5avgndcgm0; existmag=mag',
+'sec-ch-ua': "'Google Chrome';v='131', ' Not;A Brand';v='24', 'Chromium';v='131'",
+'sec-ch-ua-mobile': '?0',
 'sec-fetch-dest': 'document',
+'sec-ch-ua-platform': "'Windows'",
 'sec-fetch-mode': 'navigate',
 'sec-fetch-site': 'none',
 'sec-fetch-user': '?1',
 'upgrade-insecure-requests': '1',
-'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 }
 
 # Enable or disable spider middlewares
