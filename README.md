@@ -1,7 +1,8 @@
 # JavSpider
 根据老师或车牌去javbus抓取磁力地址的爬虫脚本～
 
-**运行之前确保ini配置文件和可执行文件在同一个目录下**
+
+
 
 # 源码运行
 
@@ -12,6 +13,8 @@
 `python crawl.py`
 
 # 二进制运行
+
+**运行之前确保ini配置文件和可执行文件在同一个目录下**
 
 windows: 双击运行javspider_win_amd64.exe
 
