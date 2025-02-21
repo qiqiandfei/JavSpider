@@ -1,26 +1,6 @@
 # JavSpider
 根据老师或车牌去javbus抓取磁力地址的爬虫脚本～
 
-
-
-
-# 源码运行
-
-运行原生Python需要安装Python3并引入scrapy库及相关依赖；
-
-`pip install -r requirements.txt`
-
-`python crawl.py`
-
-# 二进制运行
-
-**运行之前确保ini配置文件和可执行文件在同一个目录下**
-
-windows: 双击运行javspider_win_amd64.exe
-
-linux: ./javspider_linux_amd64
-
-
 # 配置说明
 
 1、主域名：
@@ -71,24 +51,23 @@ linux: ./javspider_linux_amd64
     
 默认配置：mosaic = all
 
+# 源码运行
 
-# 运行Python原生脚本(需要Python环境及依赖库)
-1、打开脚本目录（第一层JavSpider），找到配置文件‘config.ini’,根据需修改参数。
+运行原生Python需要安装Python3并引入scrapy库及相关依赖；
 
-2、开始->运行 输入‘cmd’进入命令行
+`pip install -r requirements.txt`
 
-3、cd到脚本目录（第一层JavSpider）；或者直接在脚本目录下‘Shift+鼠标右键’，选择在此处打开命令行或powershell
+`python crawl.py`
 
-4、输入命令 scrapy crawl jav  等待程序自动抓取结束(结束标识：INFO: Spider closed (finished))
+# 二进制运行
 
-5、脚本执行结束后，结果目录（CrawlResult）中会生成两个文件 xxx_xxx_info.json和xxx_xxx__magnet.txt；xxx_xxx_info.json保存信息较全，可以作为后续数据处理的数据源；xxx_xxx_magnet.txt为纯磁力，可以直接复制到115离线
+**运行之前确保ini配置文件和可执行文件在同一个目录下**
 
-# Windows下运行exe（无需Python环境）
-1、打开脚本目录，进入dist文件夹，找到配置文件‘config.ini’，按需修改参数。
+windows: 双击运行javspider_win_amd64.exe
 
-2、双击‘crawl.exe’执行抓取
+linux: ./javspider_linux_amd64
 
-3、等待执行结束后黑窗自动关闭退出，结果文件保存在 dist/CrawlResult文件夹下
+等待执行结束后，结果文件保存在 CrawlResult文件夹下
 
 # 免责声明
 本脚本仅限用于爬虫技术交流，切勿用于非法用途，由于个人行为引发的一切法律后果与本人无关！
