@@ -1,11 +1,21 @@
 # JavSpider
 根据老师或车牌去javbus抓取磁力地址的爬虫脚本～
 
-# 运行环境
+**运行之前确保ini配置文件和可执行文件在同一个目录下**
+
+# 源码运行
 
 运行原生Python需要安装Python3并引入scrapy库及相关依赖；
 
-没有Python环境的(windows)请直接运行dist文件夹下的‘crawl.exe’
+`pip install -r requirements.txt`
+
+`python crawl.py`
+
+# 二进制运行
+
+windows: 双击运行javspider_win_amd64.exe
+
+linux: ./javspider_linux_amd64
 
 
 # 配置说明
