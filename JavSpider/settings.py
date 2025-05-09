@@ -72,7 +72,14 @@ DEFAULT_REQUEST_HEADERS = {
 DOWNLOADER_MIDDLEWARES = {
    'JavSpider.middlewares.RandomUserAgentMiddleware': 400,
    'JavSpider.middlewares.JavspiderDownloaderMiddleware': 543,
+   'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,  
+   'JavSpider.middlewares.CustomRetryMiddleware': 550,       
 }
+
+# 允许重试次数
+RETRY_TIMES = 3  # 最多重试 3 次
+# 仅对哪些状态码重试
+RETRY_HTTP_CODES = [429, 500, 502, 503, 504]  # 429 + 5xx 错误
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -88,14 +95,14 @@ ITEM_PIPELINES = {
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 #AUTOTHROTTLE_DEBUG = False
 

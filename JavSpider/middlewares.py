@@ -8,6 +8,8 @@ import random
 from scrapy import signals
 from JavSpider.settings import USER_AGENT_LIST, DEFAULT_REQUEST_HEADERS
 from readini import ReadConfig
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy.utils.response import response_status_message
 
 class JavspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -128,3 +130,19 @@ class RandomUserAgentMiddleware(object):
         else:
             cookie = defaulcookie + " existmag=mag;"
         request.headers['Cookie'] = cookie
+
+
+class CustomRetryMiddleware(RetryMiddleware):
+    def process_response(self, request, response, spider):
+        if response.status == 429:
+            # 更长的随机延迟（10-30秒）
+            retry_delay = random.uniform(10, 30)
+            spider.logger.warning(f'Rate limited (429), retrying in {retry_delay:.2f}s...')
+            
+            # 自动降低请求优先级（数值越小优先级越低）
+            request.priority = request.priority - 100 if hasattr(request, 'priority') else -100
+            
+            request.meta['retry_delay'] = retry_delay
+            reason = response_status_message(response.status)
+            return self._retry(request, reason, spider) or response
+        return super().process_response(request, response, spider)
